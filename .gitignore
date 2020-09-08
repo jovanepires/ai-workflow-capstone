@@ -1,0 +1,9 @@
+# local vscode config
+.vscode
+
+# python bytecodes
+__pycache__
+
+# jupyter checkpoints
+t-*.ipynb
+.ipynb_checkpoints

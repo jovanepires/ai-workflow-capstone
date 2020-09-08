@@ -1,0 +1,9 @@
+numpy
+pandas
+matplotlib
+seaborn
+SQLAlchemy
+joblib
+sklearn
+requests
+Flask
