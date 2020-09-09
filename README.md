@@ -94,25 +94,24 @@ POST /train
 # request
 POST /predict
 {
-  "mode": "test" // toggle between a test version and a production version of training
-  "country": "",
-  "year": "2019",
-  "month": "10",
-  "day": "05",
+	"mode": "prod",
+	"type": "dict",
+	"query": {
+		"country": "united_kingdom",
+		"year" : "2019",
+		"month": "05",
+		"day": "10"
+	}
 }
 ```
 ```
 # response
-{
-  "mode": "test"
-  "country": "",
-  "year": "2019",
-  "month": "10",
-  "day": "05",
-  "y_pred": 99.1,
-  "y_true": 105.9,
-  "model_version": 0.1,
-}
+[
+  {
+    "y_pred": 176255.3608,
+    "y_proba": null
+  }
+]
 ```
 - Logs 
 

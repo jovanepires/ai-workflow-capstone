@@ -22,6 +22,8 @@ register_matplotlib_converters()
 class DataUtils():
     def __init__(self):
         self._items_dict = []
+        self._invoices_df = pd.DataFrame()
+        self._invoices_df_ts = pd.DataFrame()
 
     def clear_column_name(self, col, fix):
         tmp = col.lower().replace('_', '').replace('-', '').strip()
@@ -75,22 +77,25 @@ class DataUtils():
 
         return self
 
-    def convert_dataframe_to_ts(self, index_column, dataframe=None, value_column=None, resample=None, country=None, output=True):
+    def convert_dataframe_to_ts(self, index_column=None, dataframe=None, value_column=None, resample=None, country=None, output=True):
         """
         given the original DataFrame 
         return a numerically indexed time-series DataFrame 
         by aggregating over each day
         """
-        self._invoices_df = dataframe if dataframe else self._invoices_df
+        data = self._invoices_df
+        
+        if isinstance(dataframe, pd.DataFrame):
+            data = dataframe
 
         if country:
-            if country not in np.unique(self._invoices_df['country'].values):
+            if country not in np.unique(data['country'].values):
                 raise Excpetion("country not found")
         
-            mask = self._invoices_df['country'] == country
-            df = self._invoices_df[mask]
+            mask = data['country'] == country
+            df = data[mask]
         else:
-            df = self._invoices_df
+            df = data
             
         ## use a date range to ensure all days are accounted for in the data
         invoice_dates = df['invoice_date'].values
@@ -116,8 +121,6 @@ class DataUtils():
 
         self._invoices_df_ts = df_time
 
-        self._invoices_df_ts.set_index([index_column], inplace=True)
-
         if output:
             return self._invoices_df_ts
 
@@ -133,7 +136,8 @@ class DataUtils():
         when set to false all data will be returned
         """
 
-        self._invoices_df_ts = dataframe if dataframe else self._invoices_df_ts
+        if isinstance(dataframe, pd.DataFrame):
+            self._invoices_df_ts = dataframe 
 
         ## extract dates
         dates = self._invoices_df_ts['date'].values.copy()
