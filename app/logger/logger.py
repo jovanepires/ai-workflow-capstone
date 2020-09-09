@@ -16,13 +16,14 @@ class Logger():
         today = date.today()
         ## name the logfile using something that cycles with date (day, month, year)    
         self._file = "{}-{}-{}-{}.log".format('general', __name__, today.year, today.month)
-        self._logger = os.path.join('logs', self._file)
+        self._logger = os.path.abspath(os.path.join('logs', self._file))
 
     def get_logger(self, country, method, verbose=True):
         today = date.today()
         ## name the logfile using something that cycles with date (day, month, year)   
         self._verbose = verbose 
-        self._logger = "{}-{}-{}-{}.log".format(country, method, today.year, today.month)
+        self._file = "{}-{}-{}-{}.log".format(country, method, today.year, today.month)
+        self._logger = os.path.abspath(os.path.join('logs', self._file))
         return self
 
     def info(self, **kwargs):
