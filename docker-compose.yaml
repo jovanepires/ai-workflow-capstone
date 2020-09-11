@@ -18,7 +18,7 @@ services:
             - unittests
         build: 
             context: ./
-            dockerfile: ./deploy/webserver/Dockerfile
+            dockerfile: ./build/webserver/Dockerfile
         restart: always
         environment: 
             - PORT=5000
