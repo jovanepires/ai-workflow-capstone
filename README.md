@@ -10,14 +10,16 @@ Files for the IBM AI Enterprise Workflow Capstone project.
 │   ├───logger
 │   ├───model
 │   ├───notebooks
-├───cs-production
-├───cs-train
-├───deploy
-│   ├───notebooks
+├───data
+│   └───cs-production
+│   └───cs-train
+├───build
 │   └───webserver
 ├───logs
 ├───reports
 ├───solution-guidance
+├───static
+├───templates
 └───unittests
 ```
 
