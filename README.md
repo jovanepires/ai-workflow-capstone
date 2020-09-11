@@ -17,6 +17,7 @@ Files for the IBM AI Enterprise Workflow Capstone project.
 │   └───webserver
 ├───logs
 ├───reports
+├───models
 ├───solution-guidance
 ├───static
 ├───templates
