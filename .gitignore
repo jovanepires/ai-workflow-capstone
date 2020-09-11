@@ -7,3 +7,6 @@ __pycache__
 # jupyter checkpoints
 t-*.ipynb
 .ipynb_checkpoints
+
+# database
+invoices.db
