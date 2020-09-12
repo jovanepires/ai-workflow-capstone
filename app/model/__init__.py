@@ -1,9 +1,10 @@
 import time,os,re,csv,sys,uuid,joblib
 import getopt,pickle
-from datetime import date
-from collections import defaultdict
 import numpy as np
 import pandas as pd
+
+from datetime import date, datetime, timedelta
+from collections import defaultdict
 from sklearn import svm
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
@@ -11,12 +12,16 @@ from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
+
+from fbprophet import Prophet
+
 from app.data_ingestion import data_utils
 from app.logger import logger 
 from app.data_ingestion.data_repository import DataRepository
 from settings import *
 
-def _model_train(df,tag,test=False):
+
+def _model_train(df, country, test=False):
     """
     example funtion to train model
     
@@ -29,64 +34,49 @@ def _model_train(df,tag,test=False):
     ## start timer for runtime
     time_start = time.time()
 
-    data_handler = data_utils.DataUtils()
-    X,y,dates = data_handler.make_features_to_ts(dataframe=df, training=test)
-
-    if test:
-        n_samples = int(np.round(0.3 * X.shape[0]))
-        subset_indices = np.random.choice(np.arange(X.shape[0]),n_samples,
-                                          replace=False).astype(int)
-        mask = np.in1d(np.arange(y.size),subset_indices)
-        y=y[mask]
-        X=X[mask]
-        dates=dates[mask]
+    train_size = int(len(df) * 0.75)
+    df_train, df_test = df[0:train_size], df[train_size:len(df)]
         
-    ## Perform a train-test split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25,
-                                                        shuffle=True, random_state=42)
-    ## train a random forest model
-    param_grid_rf = {
-    'rf__criterion': ['mse','mae'],
-    'rf__n_estimators': [10,15,20,25]
-    }
+    model = Prophet()
+    model.fit(df_train)
 
-    pipe_rf = Pipeline(steps=[('scaler', StandardScaler()),
-                              ('rf', RandomForestRegressor())])
-    
-    grid = GridSearchCV(pipe_rf, param_grid=param_grid_rf, cv=5, iid=False, n_jobs=-1)
-    grid.fit(X_train, y_train)
-    y_pred = grid.predict(X_test)
-    eval_rmse =  round(np.sqrt(mean_squared_error(y_test,y_pred)))
+    forecast = model.predict(df_test.drop(columns="y"))
+    y_pred = forecast['yhat']
+    y_test = df_test['y']
+    eval_rmse =  round(np.sqrt(mean_squared_error(y_test, y_pred)))
     
     ## retrain using all data
-    grid.fit(X, y)
+    model = Prophet()
+    model.fit(df)
+
     model_name = re.sub("\.","_",str(MODEL_VERSION))
+
     if test:
         saved_model = os.path.join(MODEL_DIR,
-                                   "test-{}-{}.joblib".format(tag,model_name))
+                                   "test-{}-{}.joblib".format(country, model_name))
         print("... saving test version of model: {}".format(saved_model))
     else:
         saved_model = os.path.join(MODEL_DIR,
-                                   "sl-{}-{}.joblib".format(tag,model_name))
+                                   "sl-{}-{}.joblib".format(country, model_name))
         print("... saving model: {}".format(saved_model))
         
-    joblib.dump(grid,saved_model)
+    joblib.dump(model, saved_model)
 
     m, s = divmod(time.time()-time_start, 60)
     h, m = divmod(m, 60)
     runtime = "%03d:%02d:%02d"%(h, m, s)
 
     ## update log
-    logger.get_logger('general', 'train').info(\
-                tag=tag,
-                data_shape=(str(dates[0]),str(dates[-1])),\
-                eval_test={'rmse':eval_rmse},\
+    logger.get_logger(country, 'train').info(\
+                country=country,
+                data_shape=df.shape,\
+                eval_test={'rmse': eval_rmse},\
                 runtime=runtime,\
                 model_version=MODEL_VERSION,\
                 test=False)
   
 
-def model_train(data_dir,test=False):
+def model_train(country="all",test=False):
     """
     funtion to train model given a df
     
@@ -101,31 +91,25 @@ def model_train(data_dir,test=False):
         print("...... subseting data")
         print("...... subseting countries")
         
-    ## fetch time-series formatted data
-    # data_handler = data_utils.DataUtils()
-    # ts_data = data_handler.load_all_json_files(data_dir)\
-    #                       .convert_to_dataframe(output=False)\
-    #                       .convert_dataframe_to_ts(data_dir)
+    ## fetch formatted data
     repository = DataRepository()
-    ts_data = repository.connect_db().list_ts()
+    data = repository.connect_db().list_revenues(country=country)
+    data['ts'] = pd.to_datetime(data['date'], unit='ms')
+    train = data[['ts', 'revenue']]
+    train.columns = ['ds', 'y']
 
     ## train a different model for each data sets
-    for country,df in ts_data.items():
-        
-        if test and country not in ['all','united_kingdom']:
-            continue
-        
-        _model_train(df,country,test=test)
+    countries = repository.connect_db().list_countries()['name'].values
+    for c in list([*countries, 'all']):
+        c_id = re.sub("\s+","_",c.lower())
+        _model_train(train, c_id, test=test)
     
-def model_load(prefix='sl',data_dir=None,training=True):
+def model_load(prefix='sl',country='all', training=True):
     """
-    example funtion to load model
+    example function to load model
     
     The prefix allows the loading of different models
     """
-
-    if not data_dir:
-        data_dir = os.path.join("..","data","cs-train")
     
     models = [f for f in os.listdir(MODEL_DIR) if re.search("sl",f)]
 
@@ -134,23 +118,11 @@ def model_load(prefix='sl',data_dir=None,training=True):
 
     all_models = {}
     for model in models:
-        all_models[re.split("-",model)[1]] = joblib.load(os.path.join(MODEL_DIR,model))
-
-    ## load data
-    # ts_data = fetch_ts(data_dir)
-    repository = DataRepository()
-    ts_data = repository.connect_db().list_ts()
-    all_data = {}
-    data_handler = data_utils.DataUtils()
-
-    for country, df in ts_data.items():
-        X,y,dates = data_handler.make_features_to_ts(dataframe=df, training=training)
-        dates = np.array([str(d) for d in dates])
-        all_data[country] = {"X":X,"y":y,"dates": dates}
+        all_models[re.split("-",model)[1]] = joblib.load(os.path.join(MODEL_DIR, model))
         
-    return(all_data, all_models)
+    return all_models[country]
 
-def model_predict(country,year,month,day,all_models=None,all_data=None,test=False):
+def model_predict(model, country, year, month, day, test=False):
     """
     example function to predict from model
     """
@@ -158,45 +130,30 @@ def model_predict(country,year,month,day,all_models=None,all_data=None,test=Fals
     ## start timer for runtime
     time_start = time.time()
 
-    ## load model if needed
-    if not all_models:
-        all_data,all_models = model_load(training=False)
-    
     ## input checks
-    if country not in all_models.keys():
+    repository = DataRepository()
+    countries = repository.connect_db().list_countries()['name'].values
+    countries = [re.sub("\s+","_",c.lower()) for c in countries]
+    if country not in countries:
         raise Exception("ERROR (model_predict) - model for country '{}' could not be found".format(country))
 
     for d in [year,month,day]:
         if re.search("\D",d):
             raise Exception("ERROR (model_predict) - invalid year, month or day")
     
-    ## load data
-    model = all_models[country]
-    data = all_data[country]
-
-    ## check date
-    target_date = "{}-{}-{}".format(year,str(month).zfill(2),str(day).zfill(2))
-    print(target_date)
-
-    if target_date not in data['dates']:
-        raise Exception("ERROR (model_predict) - date {} not in range {}-{}".format(target_date,
-                                                                                    data['dates'][0],
-                                                                                    data['dates'][-1]))
-    date_indx = np.where(data['dates'] == target_date)[0][0]
-    query = data['X'].iloc[[date_indx]]
-    
-    ## sainty check
-    if data['dates'].shape[0] != data['X'].shape[0]:
-        raise Exception("ERROR (model_predict) - dimensions mismatch")
+    ## generate target period
+    data = repository.connect_db().list_revenues(country=country)
+    today_date = pd.to_datetime(max(data['date'].values)).date()
+    target_date = date(int(year), int(month), int(day))
+    delta = target_date - today_date
+    date_list = [target_date - timedelta(days=x) for x in range(delta.days)]
+    future = pd.DataFrame({"ds": date_list})
+    sys.stdout.flush()
 
     ## make prediction and gather data for log entry
-    y_pred = model.predict(query)
-    y_proba = None
-    if 'predict_proba' in dir(model) and 'probability' in dir(model):
-        if model.probability == True:
-            y_proba = model.predict_proba(query)
-
-
+    forecast = model.predict(future)
+    y_pred = forecast[forecast['ds'] == target_date.strftime("%Y-%m-%d")]['yhat'].values[0]
+    
     m, s = divmod(time.time()-time_start, 60)
     h, m = divmod(m, 60)
     runtime = "%03d:%02d:%02d"%(h, m, s)
@@ -204,13 +161,20 @@ def model_predict(country,year,month,day,all_models=None,all_data=None,test=Fals
     ## update predict log
     logger.get_logger(country, 'predict').info(country=country,\
                 y_pred=y_pred,\
-                y_proba=y_proba,\
+                y_proba=None,\
                 target_date=target_date,\
                 runtime=runtime,\
                 model_version=MODEL_VERSION,\
                 test=test)
     
-    return({'y_pred':y_pred,'y_proba':y_proba})
+    result = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper', 'trend']]
+    result['country_id'] = country
+
+    repository = DataRepository()
+    repository.connect_db().drop_table(repository._predictions_table)
+    repository.connect_db().insert_predictions(result)
+
+    return result
 
 
 if __name__ == "__main__":
@@ -226,13 +190,13 @@ if __name__ == "__main__":
 
     ## load the model
     print("LOADING MODELS")
-    all_data, all_models = model_load()
-    print("... models loaded: ",",".join(all_models.keys()))
+    model = model_load()
+    print("... models loaded: ",",".join(['all']))
 
     ## test predict
     country='all'
     year='2018'
     month='01'
     day='05'
-    result = model_predict(country,year,month,day)
+    result = model_predict(model, country, year, month, day)
     print(result)

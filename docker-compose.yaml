@@ -1,28 +1,30 @@
 version: "3.0"
 
 services:
-    unittests:
-        image: webserver
-        build: 
-            context: ./
-            dockerfile: ./deploy/webserver/Dockerfile
-        environment: 
-            - DATAPATH=/var/www/data/cs-train
-        volumes: 
-            - ./:/var/www
-        command: "sh -c 'python -m unittest unittests/*.py'"
+    # unittests:
+    #     image: webserver
+    #     build: 
+    #         context: ./
+    #         dockerfile: ./deploy/webserver/Dockerfile
+    #     environment: 
+    #         - DATAPATH=/var/www/data/cs-train
+    #     volumes: 
+    #         - ./:/var/www
+    #     command: "sh -c 'python -m unittest unittests/*.py'"
 
     webserver:
         image: webserver
-        depends_on: 
-            - unittests
+        # depends_on: 
+        #     - unittests
         build: 
             context: ./
             dockerfile: ./build/webserver/Dockerfile
         restart: always
         environment: 
             - PORT=5000
+            - LOAD_DATA=n
             - DATAPATH=/var/www/data/cs-production
+            - FLASK_ENV=development 
         volumes: 
             - ./:/var/www
         ports:

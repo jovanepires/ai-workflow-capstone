@@ -1,3 +1,110 @@
 unique_id,timestamp,country,y_pred,y_proba,target_date,runtime,model_version,test
 3f34a082-fd58-4269-acf4-b334dfcc15d6,1599636640.1568544,united_kingdom,[176255.3608],None,2019-05-10,000:00:00,0.1,False
 f2ed421d-33f1-4202-9696-56e19abbe5eb,1599637075.0858252,united_kingdom,[176255.3608],None,2019-05-10,000:00:00,0.1,False
+61eeba52-49cf-4265-9328-2c91f4398c71,1599887070.9186127,united_kingdom,7042.528507481045,None,2019-05-10,000:00:03,0.1,False
+145f739e-cadf-45f2-abfc-4ba2b570456a,1599887070.9216743,...unsuccessful insert: __enter__
+b87aff3a-260b-47ab-aad3-121e83d0635e,1599887221.1267824,...successfully connected to db
+fd29d060-3cea-4a40-b757-9632bcf03bbc,1599887293.1344712,united_kingdom,7042.528507481045,None,2019-05-10,000:00:03,0.1,False
+95295829-807a-4101-9110-02e1a99f42f9,1599887293.13978,...successfully connected to db
+3e478b98-f93f-4240-a22e-9479a7c67d10,1599887293.1941717,...successfully inserted to db
+e92478fe-1e34-4c3a-8bd4-50ca5419c864,1599887340.7131405,...successfully connected to db
+b1e8dace-44b0-4984-98b4-ae05f9097c71,1599887400.8978498,united_kingdom,7042.528507481045,None,2019-05-10,000:00:03,0.1,False
+ffd80807-0f50-4154-9330-8470024dc960,1599887400.902656,...successfully connected to db
+adec9590-17dd-46fe-aa5e-a5cc5e9625c1,1599887400.9568632,...successfully inserted to db
+1439e628-d030-48b7-b339-1c20a0151c1b,1599887411.396192,...successfully connected to db
+fce817bd-4dd1-44bf-9463-fe8b6aec1841,1599887421.8526142,...successfully connected to db
+face7707-9d67-48d7-82eb-757e03fddfd1,1599887434.4759648,...successfully connected to db
+16fc8881-200a-4c48-9ad6-6c0bce901f8a,1599887489.8166385,...successfully connected to db
+92703616-cd43-42f8-a58f-51481794ed46,1599887636.2767668,...successfully connected to db
+865eacd6-3774-4fb1-a4be-1f0c1709474c,1599887676.6792676,...successfully connected to db
+b32ddc7b-362b-426c-a4f5-01e499ea2bf6,1599887816.19721,...successfully connected to db
+d0f3d805-abf9-4837-a647-c10a23d63dbf,1599887816.208797,...successfully connected to db
+79994a71-865c-427d-9f59-e51a626545a8,1599887819.897697,united_kingdom,-2186.444173545553,None,2020-05-10,000:00:03,0.1,False
+83080711-d993-493a-b177-57af3f0e0495,1599887819.9024918,...successfully connected to db
+cce58d26-96d6-49ad-ae39-f51aa53f37a5,1599887819.9733744,...successfully inserted to db
+f903ea14-1164-4b3c-ba3d-e1a1690d09ca,1599887871.403637,...successfully connected to db
+40e20bb8-931d-43a4-8c7a-d5af9988d3a5,1599887887.0935268,...successfully connected to db
+b437687a-1d5c-4c14-b50c-cb12f9573c9a,1599887894.703843,...successfully connected to db
+30cbce62-559b-423d-b824-9bbb2945be16,1599887920.494175,...successfully connected to db
+ace310a1-038b-4398-a62b-0adb07021c10,1599887932.3438137,...successfully connected to db
+c7c0496e-e96c-44a4-80c4-72d83c1c2cfe,1599887966.3849442,...successfully connected to db
+dd4b8b20-d337-4d96-8776-e2960be25949,1599887993.108573,...successfully connected to db
+03f0e0a2-4c25-4d22-8827-7f2aa61d1f2a,1599888008.0553532,...successfully connected to db
+886f81ce-45aa-4913-b42b-fa916510c52f,1599888086.1352313,...successfully connected to db
+f26911d6-c0e0-4ea3-b934-b6bc047aa3ba,1599888086.1465793,...successfully connected to db
+f46ca2ed-edbf-4300-a4e3-2642dfbd428b,1599888089.8383706,united_kingdom,-2186.444173545553,None,2020-05-10,000:00:03,0.1,False
+b0ab2d28-55d5-4463-84b0-a63d8648ad31,1599888089.8434238,...successfully connected to db
+608ca6fe-b100-4c35-9a0c-71b4d3b979df,1599888089.9076731,...successfully inserted to db
+daa3c449-3c24-4b06-bd95-e87999340b84,1599888099.238224,...successfully connected to db
+085fd603-b719-4ce8-ae78-44df4ff12e46,1599888099.6283975,...successfully connected to db
+747586e6-fcb1-46b0-93ec-ffc8723f8611,1599888144.5128834,...successfully connected to db
+6c35dde9-be4f-4a12-9f07-4e99e3f0afab,1599888144.524597,...successfully connected to db
+be6ace30-2d82-4999-8320-63afd98851d7,1599888148.2903237,united_kingdom,-2186.444173545553,None,2020-05-10,000:00:03,0.1,True
+7ee5383c-1276-4672-99f0-da7132d6ae4e,1599888148.2953272,...successfully connected to db
+dd7a7e90-1e19-4f87-a2bc-dceeac01af33,1599888148.3544257,...successfully inserted to db
+32812552-f20e-44d0-a0a3-b473ccc9c47a,1599888187.3587263,...successfully connected to db
+355633aa-e38d-4870-9232-909704b92c54,1599888187.3702016,...successfully connected to db
+64572d8f-3b8d-4410-9a16-ac92a653098d,1599888190.6444964,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+a6966f9f-7997-4eaa-a68d-8a8abd113795,1599888190.6495163,...successfully connected to db
+eb40c0f6-3cec-40e9-ac31-ce706843fe30,1599888190.7089138,...successfully inserted to db
+035714af-c01b-4fe8-9387-eccdbfe64663,1599888198.4031754,...successfully connected to db
+4d72b8d6-f480-4dd5-8e01-05cbce4a99ea,1599888198.7753909,...successfully connected to db
+7368b28b-9998-40d6-b53f-f7a020210c37,1599888351.950473,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+731b62cc-26a8-49ff-8090-b5eca49d3934,1599888351.955614,...successfully connected to db
+af8f32b0-7ee2-4315-a4ff-67332444d9e2,1599888351.9779212,...deleting table: predictions
+2cbf1552-69af-4713-869e-449c03e81791,1599888351.9973931,...successfully connected to db
+107501cd-2f00-4294-a5e5-c3051f64b003,1599888352.0536797,...successfully inserted to db
+aed2d62e-15f9-48b8-8d15-84e5a36a7e99,1599888560.2779067,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+8f1d06fe-a07d-455b-bb2e-5f093698cc34,1599888560.2831006,...successfully connected to db
+c119640a-06c6-4a5e-aa3e-7c6fe2af2c76,1599888560.3055055,...deleting table: predictions
+b3688ca2-b858-4680-b983-a61a5efda601,1599888560.326022,...successfully connected to db
+e59eb69a-e42b-467f-a0f9-9cbde454efcf,1599888560.3817568,...successfully inserted to db
+89635632-283e-4a86-bde9-f6e9a47768c2,1599888630.6316803,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+a146e4da-dfe8-4aac-93f5-67ce78bfb13f,1599888630.6366217,...successfully connected to db
+661505ee-bff4-4fa4-9dc9-fbd37b3eedc6,1599888630.6600275,...deleting table: predictions
+cb8a879a-45a5-4bfd-aef8-ed700961044b,1599888630.6804702,...successfully connected to db
+131bbc0d-3115-4863-ba73-132ba4d302a6,1599888630.7358162,...successfully inserted to db
+46c72e00-2a90-4fd5-9d29-b4b17763169a,1599888882.2983358,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+123b0413-1e1d-4de8-b22d-a147f458ec31,1599888882.3071103,...successfully connected to db
+e0ea6bd3-fd1d-4473-987e-5be412a5d3c0,1599888882.3487413,...deleting table: predictions
+8d06621c-b13d-4f2e-9bb0-3d992a4e27b3,1599888882.3691702,...successfully connected to db
+cde7188c-32fe-4699-ab6c-683fe76bf53b,1599888882.4247015,...successfully inserted to db
+448f03fb-dfb8-465c-ab50-902b5ccac677,1599888984.1898468,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:03,0.1,True
+57b334e1-086c-486e-baa2-c265291a4d69,1599888984.1953347,...successfully connected to db
+10a321c5-e932-44cc-9299-8d0bf8b5c715,1599888984.2190487,...deleting table: predictions
+5696bdef-55ef-4149-89ea-b394a5f0f69a,1599888984.2398365,...successfully connected to db
+26cdf0b0-358d-434a-ba42-85ee1b51f139,1599888984.298278,...successfully inserted to db
+ce70d2b4-6654-49f1-a33a-3ad6b61c420c,1599889847.6887064,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:02,0.1,True
+b6a8360b-1cba-43d3-9a5c-0d8dac6b29b7,1599889847.697313,...successfully connected to db
+c86b29c3-aa52-463a-aa92-d0bbb969a3ec,1599889847.7215235,...deleting table: predictions
+3cd8d178-eacf-4bbe-97f4-ab0e35b3a02f,1599889847.7398012,...successfully connected to db
+88fc9e9d-b3a0-45ed-a4e3-f2c5f4395dac,1599889847.7779298,...successfully inserted to db
+86c25761-97d1-426e-bf14-bdc8f8357929,1599889873.5640101,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:02,0.1,True
+745be190-2e20-48a9-9b42-f4cb23e601a9,1599889873.5695515,...successfully connected to db
+2decdbdf-cdd8-405c-9694-7f4190f01dc1,1599889873.593005,...deleting table: predictions
+994d5ac0-7d46-4ccd-8bc3-98abc4932c0f,1599889873.6083698,...successfully connected to db
+c369db19-aebb-476f-9d88-ebd1ebe5377f,1599889873.647542,...successfully inserted to db
+35dcfe21-6cac-4979-986f-a4947bddf574,1599889906.3153584,...successfully connected to db
+2719bb5c-c5c4-4936-9a13-b1c07bd1832b,1599889907.5662687,...successfully connected to db
+82dec0d0-6e03-47fc-86e8-e449f55b96c6,1599889977.7670574,...successfully connected to db
+0a367693-a325-4151-bd59-e788d71798b1,1599889977.778559,...successfully connected to db
+8bb3f5c2-52be-4552-865d-ad8bdff02b65,1599889980.3875866,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:02,0.1,True
+d1626e13-7f1e-49e3-916d-383be6a610d8,1599889980.397238,...successfully connected to db
+ff024a79-f001-4a03-bb03-96d8e909b20a,1599889980.4373581,...successfully connected to db
+42362a2f-97d8-4ea0-8e5d-2028c69f0467,1599889980.4776418,...successfully inserted to db
+8675e587-020b-4455-9dc1-c25158550fe8,1599890421.785771,united_kingdom,-1744.2069249556635,None,2019-08-10,000:00:02,0.1,True
+a1f61d6d-d886-47cd-b069-a895e9c8f838,1599890421.79119,...successfully connected to db
+52518e92-fdfe-484a-9df6-0802de75bae3,1599890421.8235989,...deleting table: predictions
+91243d3f-d97c-42fa-83fe-6ef03a1fd0b5,1599890421.8365757,...successfully connected to db
+b386aae3-591d-4020-99be-bf4c59a75f02,1599890421.8588362,...successfully inserted to db
+ca3a80f3-4a09-4bc2-8596-496d010ee617,1599890451.0063968,...successfully connected to db
+071a19e5-1366-4413-a31f-c62f27a215a4,1599890451.2380934,...successfully connected to db
+cdc94b04-129f-4846-aca6-ee5e8353a8e8,1599890547.2708504,...successfully connected to db
+2a9e155c-1b08-4bf1-b717-1cb7e5a558c5,1599890547.2820213,...successfully connected to db
+fb9950a5-3339-433c-9be6-825522ae4369,1599890549.8056138,united_kingdom,6805.407111957488,None,2019-12-10,000:00:02,0.1,True
+a023f0c9-fe84-4b22-bc47-c39be9b2660e,1599890549.8103824,...successfully connected to db
+470c9e2d-8386-4539-9862-8c9ef33ab8b4,1599890549.8339574,...deleting table: predictions
+3aa3e1f6-2196-4884-94fc-b5cc7f004cd3,1599890549.8426921,...successfully connected to db
+a0ed2d95-9cf2-4c7d-9111-e40535216f86,1599890549.8651996,...successfully inserted to db
+04b2579a-7f18-419d-adcf-4df9b94a296e,1599890556.7167308,...successfully connected to db
+167d5b78-5751-4ae6-b827-a9ccf68c753c,1599890557.185742,...successfully connected to db

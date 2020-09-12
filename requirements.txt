@@ -8,3 +8,10 @@ joblib
 sklearn
 requests
 Flask
+cython
+pystan==2.18
+lunardate
+holidays
+convertdate
+plotly
+fbprophet

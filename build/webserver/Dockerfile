@@ -41,11 +41,17 @@ RUN set -ex \
         netcat \
         locales \
         unzip \
+        gcc \
     && sed -i 's/^# en_US.UTF-8 UTF-8$/en_US.UTF-8 UTF-8/g' /etc/locale.gen \
     && locale-gen \
     && update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 \
     && useradd -ms /bin/bash -d /var/www/ www \
     && pip install -U pip setuptools wheel \
+    && pip install pytz \
+    && pip install pyOpenSSL \
+    && pip install ndg-httpsclient \
+    && pip install pyasn1 \
+    && pip install cython 'pystan==2.18' lunardate holidays convertdate plotly fbprophet \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
@@ -61,7 +67,7 @@ RUN set -ex \
 WORKDIR /var/www/
 
 COPY ./requirements.txt /requirements.txt
-COPY ./deploy/webserver/entrypoint.sh /entrypoint.sh
+COPY ./build/webserver/entrypoint.sh /entrypoint.sh
 
 RUN chown -R www: /var/www/
 

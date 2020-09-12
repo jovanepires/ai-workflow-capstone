@@ -42,7 +42,7 @@ def app_model_train():
     print("... training model")
     # worker_thread = threading.Thread(target=model_train, args=([], DATA_DIR_TRAIN, test))
     # worker_thread.start()
-    model = model_train(DATA_DIR_TRAIN, test=test)
+    model = model_train(test=test)
     print("... training complete")
     return {'status': 'success'}, 200
 
@@ -80,9 +80,7 @@ def app_model_predict():
     day = query['day']
 
     ## load model
-    all_data, all_models = model_load()
-
-    model = all_models[country]
+    model = model_load(country=country)
 
     if not model:
         return {"status": "ERROR: model is not available"}, 200
@@ -91,14 +89,12 @@ def app_model_predict():
                             year=year,
                             month=month,
                             day=day,
-                            all_models=all_models,
-                            all_data=all_data,
+                            model=model,
                             test=test)
 
-    result = json.loads(pd.DataFrame.from_dict(result)\
-                 .to_json(orient="records"))
+    items = json.loads(result.to_json(orient="records"))
 
-    return Response(json_stream(result), mimetype='application/json')
+    return Response(json_stream(items), mimetype='application/json')
 
 @app.route('/logs/', methods=['GET'])
 @app.route('/logs/<filename>', methods=['GET'])
@@ -112,10 +108,20 @@ def app_model_logs(filename=''):
 
     return Response(json_stream(items), mimetype='application/json')
 
-@app.route('/data', methods=['GET'])
-def app_data():
+@app.route('/revenue/', methods=['GET'])
+@app.route('/revenue/<country>', methods=['GET'])
+def app_revenue_data(country='all'):
     repository = DataRepository()
-    result = repository.connect_db().list().to_json(orient="records")
-    items = json.loads(result)
+    result = repository.connect_db().list_revenues(country=country)
+    items = json.loads(result.to_json(orient="records"))
+
+    return Response(json_stream(items), mimetype='application/json')
+
+@app.route('/result/', methods=['GET'])
+@app.route('/result/<country>', methods=['GET'])
+def app_result_data(country='all'):
+    repository = DataRepository()
+    result = repository.connect_db().list_predictions(country=country)
+    items = json.loads(result.to_json(orient="records"))
 
     return Response(json_stream(items), mimetype='application/json')
